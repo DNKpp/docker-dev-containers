@@ -57,7 +57,7 @@ jobs:
 
       - name: Build image
         run: |
-          docker buildx build ./base \
+          docker buildx build --push ./base \
              --tag ${{ matrix.version.compiler_name }}:=${{ matrix.version.compiler_version }} \
              --build-arg BASE_IMAGE=${{ matrix.version.base_image }} \
              --build-arg COMPILER_NAME=${{ matrix.version.compiler_name }} \
