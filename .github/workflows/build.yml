@@ -55,7 +55,7 @@ jobs:
 
       - name: Build image
         env:
-            IMAGE_NAME: ${{ matrix.version.compiler_name }}:${{ matrix.version.compiler_version }}
+            IMAGE_NAME: "ghcr.io/dnkpp/docker-dev-containers/${{ matrix.version.compiler_name }}:${{ matrix.version.compiler_version }}"
         run: |
           docker build ./base \
              -t $IMAGE_NAME  \
@@ -63,4 +63,4 @@ jobs:
              --build-arg COMPILER_NAME=${{ matrix.version.compiler_name }} \
              --build-arg compiler_version=${{ matrix.version.compiler_version }} \
              --platform linux/amd64
-          docker push ghcr.io/dnkpp/docker-dev-containers/$IMAGE_NAME
+          docker push $IMAGE_NAME
