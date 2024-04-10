@@ -58,7 +58,7 @@ jobs:
         with:
           context: ./base
           push: true
-          tags: dnkpp/dev-container-${{ matrix.version.compiler_name }}:${{ matrix.version.compiler_version }}
+          tags: ghcr.io/dnkpp/${{ matrix.version.compiler_name }}:${{ matrix.version.compiler_version }}
           platforms: linux/amd64
           build-args: |
                 BASE_IMAGE=${{ env[format('{0}', matrix.version.base_image)] }}
