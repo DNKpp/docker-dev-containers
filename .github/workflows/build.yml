@@ -38,8 +38,6 @@ jobs:
           - { compiler_name: "clang", compiler_version: "18",  base_image: $UBUNTU_23_04 }
 
     runs-on: ubuntu-latest
-    env:
-      IMAGE: ghcr.io/rollbear/clang:${{ matrix.version.clang_version }}
     steps:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -58,7 +56,7 @@ jobs:
       - name: Build image
         run: |
           docker buildx build --push ./base \
-             --tag ${{ matrix.version.compiler_name }}:=${{ matrix.version.compiler_version }} \
+             --tag ${{ matrix.version.compiler_name }}:${{ matrix.version.compiler_version }} \
              --build-arg BASE_IMAGE=${{ matrix.version.base_image }} \
              --build-arg COMPILER_NAME=${{ matrix.version.compiler_name }} \
              --build-arg compiler_version=${{ matrix.version.compiler_version }} \
