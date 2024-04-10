@@ -64,6 +64,6 @@ jobs:
           tags: dev-container/${{ matrix.version.compiler_name }}:${{ matrix.version.compiler_version }}
           platforms: linux/amd64
           build-args: |
-                BASE_IMAGE=${${{ matrix.version.base_image }}}
+                BASE_IMAGE=${{ env.${{ matrix.version.base_image }} }}
                 COMPILER_NAME=${{ matrix.version.compiler_name }}
                 COMPILER_VERSION=${{ matrix.version.compiler_version }}
