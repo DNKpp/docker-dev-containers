@@ -15,7 +15,7 @@ RUN update-alternatives --install /usr/bin/${COMPILER_NAME} ${COMPILER_NAME} /us
 RUN apt-get install -y gdb rsync zip openssh-server make wget git ninja-build
 
 COPY tools/install-cmake.sh ./
-RUN +x ./install-cmake.sh
+RUN chmod +x ./install-cmake.sh
 RUN ./install-cmake.sh
 RUN rm install-cmake.sh
 	
