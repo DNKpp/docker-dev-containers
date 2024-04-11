@@ -4,6 +4,7 @@ FROM ${BASE_IMAGE}
 ARG BASE_IMAGE
 LABEL description="${COMPILER_NAME}-${COMPILER_VERSION} dev container on ${BASE_IMAGE}"
 
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 
 ARG COMPILER_NAME
