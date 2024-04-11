@@ -56,7 +56,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./base
+          context: .
+          file: ./base/Dockerfile
           push: true
           tags: ghcr.io/dnkpp/${{ matrix.version.compiler_name }}:${{ matrix.version.compiler_version }}
           platforms: linux/amd64
