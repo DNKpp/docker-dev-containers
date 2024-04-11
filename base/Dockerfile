@@ -12,7 +12,11 @@ ARG COMPILER_VERSION
 RUN apt-get install -y ${COMPILER_NAME}-${COMPILER_VERSION}
 RUN update-alternatives --install /usr/bin/${COMPILER_NAME} ${COMPILER_NAME} /usr/bin/${COMPILER_NAME}-${COMPILER_VERSION} 10000 --slave /usr/bin/${COMPILER_NAME}++ ${COMPILER_NAME}++ /usr/bin/${COMPILER_NAME}++-${COMPILER_VERSION}
 
-RUN apt-get install -y gdb rsync zip openssh-server make cmake git ninja-build
+RUN apt-get install -y gdb rsync zip openssh-server make wget git ninja-build
+
+COPY tools/install-cmake.sh ./
+RUN ./install-cmake.sh && \
+    rm install-cmake.sh
 
 ENV CC              ${COMPILER_NAME}
 ENV CXX             ${COMPILER_NAME}++
