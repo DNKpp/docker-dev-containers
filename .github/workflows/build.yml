@@ -34,7 +34,7 @@ jobs:
           - { compiler_name: "clang", compiler_version: "14",  base_image: UBUNTU_22_04 }
           - { compiler_name: "clang", compiler_version: "15",  base_image: UBUNTU_22_04 }
           - { compiler_name: "clang", compiler_version: "16",  base_image: UBUNTU_23_04 }
-          - { compiler_name: "clang", compiler_version: "17",  base_image: UBUNTU_23_04 }
+          - { compiler_name: "clang", compiler_version: "17",  base_image: UBUNTU_24_04 }
           - { compiler_name: "clang", compiler_version: "18",  base_image: UBUNTU_24_04 }
 
     runs-on: ubuntu-latest
