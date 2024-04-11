@@ -4,6 +4,7 @@ FROM ${BASE_IMAGE}
 ARG BASE_IMAGE
 LABEL description="${COMPILER_NAME}-${COMPILER_VERSION} dev container on ${BASE_IMAGE}"
 
+WORKDIR /root
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 
@@ -17,6 +18,8 @@ RUN apt-get install -y gdb rsync zip openssh-server make wget git ninja-build
 COPY tools/install-cmake.sh ./
 RUN ./install-cmake.sh && \
     rm install-cmake.sh
+	
+RUN apt-get clean
 
 ENV CC              ${COMPILER_NAME}
 ENV CXX             ${COMPILER_NAME}++
