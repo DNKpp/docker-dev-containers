@@ -38,7 +38,7 @@ jobs:
           - { compiler_name: "clang", compiler_version: "18",  base_image: UBUNTU_24_04, other_packages: "libc++-18-dev libc++abi-18-dev" }
           
           - { compiler_name: "gcc", compiler_version: "4.8",    base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "gcc", compiler_version: "4.9",    base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "4.9",    base_image: UBUNTU_16_04, other_packages: "libc++-dev libc++abi-dev" }
           - { compiler_name: "gcc", compiler_version: "5",      base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
           - { compiler_name: "gcc", compiler_version: "6",      base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
           - { compiler_name: "gcc", compiler_version: "7",      base_image: UBUNTU_20_04, other_packages: "libc++-dev libc++abi-dev" }
