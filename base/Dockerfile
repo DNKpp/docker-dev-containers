@@ -10,9 +10,22 @@ RUN apt-get update
 ARG COMPILER_NAME
 ARG COMPILER_VERSION
 RUN apt-get install -y ${COMPILER_NAME}-${COMPILER_VERSION}
-RUN update-alternatives --install /usr/bin/${COMPILER_NAME} ${COMPILER_NAME} /usr/bin/${COMPILER_NAME}-${COMPILER_VERSION} 10000 --slave /usr/bin/${COMPILER_NAME}++ ${COMPILER_NAME}++ /usr/bin/${COMPILER_NAME}++-${COMPILER_VERSION}
+RUN update-alternatives --install /usr/bin/${COMPILER_NAME} ${COMPILER_NAME} /usr/bin/${COMPILER_NAME}-${COMPILER_VERSION} 10000 \
+	--slave /usr/bin/${COMPILER_NAME}++ ${COMPILER_NAME}++ /usr/bin/${COMPILER_NAME}++-${COMPILER_VERSION}
 
-RUN apt-get install -y gdb rsync zip openssh-server make wget git ninja-build
+RUN apt-get install -y \
+	gdb \
+	rsync \
+	zip \
+	openssh-server \
+	make \
+	wget \
+	git \
+	ninja-build \
+	valgrind
+
+ARG PACKAGE_LIST
+RUN apt-get install -y ${PACKAGE_LIST}
 
 COPY tools/install-cmake.sh ./
 RUN chmod +x ./install-cmake.sh
