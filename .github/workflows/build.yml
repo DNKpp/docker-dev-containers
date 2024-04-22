@@ -16,14 +16,14 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - { compiler_name: "clang", compiler_version: "3.5", base_image: UBUNTU_16_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "clang", compiler_version: "3.6", base_image: UBUNTU_16_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "clang", compiler_version: "3.7", base_image: UBUNTU_16_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "clang", compiler_version: "3.8", base_image: UBUNTU_16_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "clang", compiler_version: "3.9", base_image: UBUNTU_16_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "clang", compiler_version: "4.0", base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "clang", compiler_version: "5.0", base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
-          - { compiler_name: "clang", compiler_version: "6.0", base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "clang", compiler_version: "3.5", base_image: UBUNTU_16_04, other_packages: "libc++-3.5-dev libc++abi-3.5-dev" }
+          - { compiler_name: "clang", compiler_version: "3.6", base_image: UBUNTU_16_04, other_packages: "libc++-3.6-dev libc++abi-3.6-dev" }
+          - { compiler_name: "clang", compiler_version: "3.7", base_image: UBUNTU_16_04, other_packages: "libc++-3.7-dev libc++abi-3.7-dev" }
+          - { compiler_name: "clang", compiler_version: "3.8", base_image: UBUNTU_16_04, other_packages: "libc++-3.8-dev libc++abi-3.8-dev" }
+          - { compiler_name: "clang", compiler_version: "3.9", base_image: UBUNTU_16_04, other_packages: "libc++-3.9-dev libc++abi-3.9-dev" }
+          - { compiler_name: "clang", compiler_version: "4.0", base_image: UBUNTU_18_04, other_packages: "libc++-4.0-dev libc++abi-4.0-dev" }
+          - { compiler_name: "clang", compiler_version: "5.0", base_image: UBUNTU_18_04, other_packages: "libc++-5.0-dev libc++abi-5.0-dev" }
+          - { compiler_name: "clang", compiler_version: "6.0", base_image: UBUNTU_18_04, other_packages: "libc++-6.0-dev libc++abi-6.0-dev" }
           - { compiler_name: "clang", compiler_version: "7",   base_image: UBUNTU_18_04, other_packages: "libc++-7-dev libc++abi-7-dev" }
           - { compiler_name: "clang", compiler_version: "8",   base_image: UBUNTU_20_04, other_packages: "libc++-8-dev libc++abi-8-dev" }
           - { compiler_name: "clang", compiler_version: "9",   base_image: UBUNTU_20_04, other_packages: "libc++-9-dev libc++abi-9-dev" }
