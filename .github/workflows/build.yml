@@ -36,6 +36,19 @@ jobs:
           - { compiler_name: "clang", compiler_version: "16",  base_image: UBUNTU_23_04, other_packages: "libc++-16-dev libc++abi-16-dev" }
           - { compiler_name: "clang", compiler_version: "17",  base_image: UBUNTU_24_04, other_packages: "libc++-17-dev libc++abi-17-dev" }
           - { compiler_name: "clang", compiler_version: "18",  base_image: UBUNTU_24_04, other_packages: "libc++-18-dev libc++abi-18-dev" }
+          
+          - { compiler_name: "gcc", compiler_version: "4.8",    base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "4.9",    base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "5",      base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "6",      base_image: UBUNTU_18_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "7",      base_image: UBUNTU_20_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "8",      base_image: UBUNTU_20_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "9",      base_image: UBUNTU_22_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "10",     base_image: UBUNTU_22_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "11",     base_image: UBUNTU_22_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "12",     base_image: UBUNTU_22_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "13",     base_image: UBUNTU_23_04, other_packages: "libc++-dev libc++abi-dev" }
+          - { compiler_name: "gcc", compiler_version: "14",     base_image: UBUNTU_24_04, other_packages: "libc++-dev libc++abi-dev" }
 
     runs-on: ubuntu-latest
     steps:
