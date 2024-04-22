@@ -2,18 +2,10 @@ ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
 ARG BASE_IMAGE
-LABEL description="${COMPILER_NAME}-${COMPILER_VERSION} dev container on ${BASE_IMAGE}"
+LABEL description="Base dev container on ${BASE_IMAGE}"
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
-
-ARG COMPILER_NAME
-ARG CXX
-ARG CC
-ARG COMPILER_VERSION
-RUN apt-get install -y ${COMPILER_NAME}-${COMPILER_VERSION}
-RUN update-alternatives --install /usr/bin/${CC} ${CC} /usr/bin/${CC}-${COMPILER_VERSION} 10000 \
-	--slave /usr/bin/${CXX} ${CXX} /usr/bin/${CXX}-${COMPILER_VERSION}
 
 RUN apt-get install -y \
 	gdb \
@@ -26,16 +18,9 @@ RUN apt-get install -y \
 	ninja-build \
 	valgrind
 
-ARG PACKAGE_LIST
-RUN apt-get install -y ${PACKAGE_LIST}
-
 COPY tools/install-cmake.sh ./
 RUN chmod +x ./install-cmake.sh
 RUN ./install-cmake.sh
 RUN rm install-cmake.sh
 	
 RUN apt-get clean
-
-ENV CC              ${CC}
-ENV CXX             ${CXX}
-ENV CMAKE_GENERATOR Ninja
