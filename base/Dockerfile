@@ -8,10 +8,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 
 ARG COMPILER_NAME
+ARG CXX
+ARG CC
 ARG COMPILER_VERSION
 RUN apt-get install -y ${COMPILER_NAME}-${COMPILER_VERSION}
-RUN update-alternatives --install /usr/bin/${COMPILER_NAME} ${COMPILER_NAME} /usr/bin/${COMPILER_NAME}-${COMPILER_VERSION} 10000 \
-	--slave /usr/bin/${COMPILER_NAME}++ ${COMPILER_NAME}++ /usr/bin/${COMPILER_NAME}++-${COMPILER_VERSION}
+RUN update-alternatives --install /usr/bin/${CC} ${CC} /usr/bin/${CC}-${COMPILER_VERSION} 10000 \
+	--slave /usr/bin/${CXX} ${CXX} /usr/bin/${CXX}-${COMPILER_VERSION}
 
 RUN apt-get install -y \
 	gdb \
@@ -34,6 +36,6 @@ RUN rm install-cmake.sh
 	
 RUN apt-get clean
 
-ENV CC              ${COMPILER_NAME}
-ENV CXX             ${COMPILER_NAME}++
+ENV CC              ${CC}
+ENV CXX             ${CXX}
 ENV CMAKE_GENERATOR Ninja
