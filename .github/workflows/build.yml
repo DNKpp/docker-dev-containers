@@ -264,8 +264,8 @@ jobs:
                     }
                     - {
                         compiler_version: "13",
-                        base_image: "ubuntu:23.04",
-                        other_packages: "libc++-dev libc++abi-dev"
+                        base_image: "ubuntu:24.04",
+                        other_packages: "libc++-18-dev libc++abi-18-dev"
                     }
                     - {
                         compiler_version: "14",
