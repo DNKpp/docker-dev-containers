@@ -201,7 +201,7 @@ jobs:
                 tags: ghcr.io/dnkpp/clang:${{ matrix.config.compiler_version }}
                 platforms: linux/amd64
                 build-args: |
-                    BASE_IMAGEghcr.io/dnkpp/${{ matrix.config.base_image }}
+                    BASE_IMAGE=ghcr.io/dnkpp/${{ matrix.config.base_image }}
                     COMPILER_VERSION=${{ matrix.config.compiler_version }}
                     PACKAGE_LIST=${{matrix.config.other_packages}}
 
