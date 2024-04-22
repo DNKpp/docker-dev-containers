@@ -78,4 +78,6 @@ jobs:
                 BASE_IMAGE=${{ env[format('{0}', matrix.version.base_image)] }}
                 COMPILER_NAME=${{ matrix.version.compiler_name }}
                 COMPILER_VERSION=${{ matrix.version.compiler_version }}
+                CXX=${{ matrix.version.cxx }}
+                CC=${{ matrix.version.cc }}
                 PACKAGE_LIST=${{matrix.version.other_packages}}
