@@ -19,6 +19,7 @@ RUN apt-get install -y \
 	valgrind \
 	python3 \
 	python3-pip
+RUN python='python3'
 
 COPY tools/install-cmake.sh ./
 RUN chmod +x ./install-cmake.sh
