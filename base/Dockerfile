@@ -16,7 +16,10 @@ RUN apt-get install -y \
 	wget \
 	git \
 	ninja-build \
-	valgrind
+	valgrind \
+	python3 \
+	pip \
+	pipx
 
 COPY tools/install-cmake.sh ./
 RUN chmod +x ./install-cmake.sh
