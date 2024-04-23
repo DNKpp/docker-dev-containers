@@ -25,7 +25,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 300
 ENV PIP_BREAK_SYSTEM_PACKAGES 1
 
 # circumvent the insufficient permissions during install in ci scripts
-RUN mkdir /tmp/pip/.cache
+RUN mkdir -p /tmp/pip/.cache
 RUN chmod -R a+rwx /tmp/pip
 ENV PIP_CACHE_DIR=/tmp/pip/.cache
 
