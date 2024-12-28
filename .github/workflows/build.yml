@@ -5,7 +5,6 @@ env:
   UBUNTU_18_04: "ubuntu:18.04@sha256:152dc042452c496007f07ca9127571cb9c29697f42acbfad72324b2bb2e43c98"
   UBUNTU_20_04: "ubuntu:20.04@sha256:8e5c4f0285ecbb4ead070431d29b576a530d3166df73ec44affc1cd27555141b"
   UBUNTU_22_04: "ubuntu:22.04@sha256:0e5e4a57c2499249aafc3b40fcd541e9a456aab7296681a3994d631587203f97"
-  UBUNTU_23_04: "ubuntu:23.04@sha256:5a828e28de105c3d7821c4442f0f5d1c52dc16acf4999d5f31a3bc0f03f06edd"
   UBUNTU_24_04: "ubuntu:24.04@sha256:80dd3c3b9c6cecb9f1667e9290b3bc61b78c2678c02cbdae5f0fea92cc6734ab"
   UBUNTU_24_10: "ubuntu:24.10@sha256:102bc1874fdb136fc2d218473f03cf84135cb7496fefdb9c026c0f553cfe1b6d"
 on:
@@ -32,10 +31,6 @@ jobs:
                     - {
                         base_image: UBUNTU_22_04,
                         tag: "ubuntu:22.04"
-                    }
-                    - {
-                        base_image: UBUNTU_23_04,
-                        tag: "ubuntu:23.04"
                     }
                     - {
                         base_image: UBUNTU_24_04,
@@ -167,7 +162,7 @@ jobs:
                     }
                     - {
                         compiler_version: "16",
-                        base_image: "ubuntu:23.04",
+                        base_image: "ubuntu:24.04",
                         other_packages: "libc++-16-dev libc++abi-16-dev"
                     }
                     - {
