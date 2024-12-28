@@ -5,7 +5,8 @@ ARG BASE_IMAGE
 LABEL description="Base dev container on ${BASE_IMAGE}"
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update
+RUN apt-get update -y
+RUN apt-get upgrade -y
 
 RUN apt-get install -y \
 	gdb \
