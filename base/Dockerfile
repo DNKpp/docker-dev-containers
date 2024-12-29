@@ -23,14 +23,14 @@ RUN apt-get install -y \
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 300
 
 # see: https://stackoverflow.com/a/76469774/4691843
-ENV PIP_BREAK_SYSTEM_PACKAGES 1
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
 # circumvent the insufficient permissions during install in ci scripts
 RUN mkdir -p /tmp/pip/.cache
 RUN chmod -R a+rwx /tmp/pip
 ENV PIP_CACHE_DIR=/tmp/pip/.cache
 
-# we need an fixed CMake version
+# we need a fixed CMake version
 COPY tools/install-cmake.sh ./
 RUN chmod +x ./install-cmake.sh
 RUN ./install-cmake.sh
