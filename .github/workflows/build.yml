@@ -163,22 +163,22 @@ jobs:
                     - {
                         compiler_version: "16",
                         base_image: "ubuntu:24.04",
-                        other_packages: "libc++-16-dev libc++abi-16-dev"
+                        other_packages: "libc++-16-dev libc++abi-16-dev gcc-13-multilib g++-13-multilib"
                     }
                     - {
                         compiler_version: "17",
                         base_image: "ubuntu:24.04",
-                        other_packages: "libc++-17-dev libc++abi-17-dev"
+                        other_packages: "libc++-17-dev libc++abi-17-dev gcc-13-multilib g++-13-multilib"
                     }
                     - {
                         compiler_version: "18",
                         base_image: "ubuntu:24.04",
-                        other_packages: "libc++-18-dev libc++abi-18-dev"
+                        other_packages: "libc++-18-dev libc++abi-18-dev gcc-13-multilib g++-13-multilib"
                     }
                     - {
                         compiler_version: "19",
                         base_image: "ubuntu:24.10",
-                        other_packages: "libc++-19-dev libc++abi-19-dev"
+                        other_packages: "libc++-19-dev libc++abi-19-dev gcc-14-multilib g++-14-multilib"
                     }
 
         runs-on: ubuntu-latest
