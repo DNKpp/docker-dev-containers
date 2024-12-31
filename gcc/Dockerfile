@@ -12,7 +12,11 @@ RUN apt-get remove -y gcc g++
 RUN apt-get autoremove -y
 
 ARG COMPILER_VERSION
-RUN apt-get install -y gcc-${COMPILER_VERSION} g++-${COMPILER_VERSION}
+RUN apt-get install -y \
+        gcc-${COMPILER_VERSION} \
+        g++-${COMPILER_VERSION} \
+        gcc-${COMPILER_VERSION}-multilib \
+        g++-${COMPILER_VERSION}-multilib
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${COMPILER_VERSION} 10000 \
                         --slave /usr/bin/g++ g++ /usr/bin/g++-${COMPILER_VERSION}
 RUN update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-${COMPILER_VERSION} 10000
