@@ -77,38 +77,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - compiler_version: "3.5"
-            base_image: "ubuntu:16.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "3.6"
-            base_image: "ubuntu:16.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "3.7"
-            base_image: "ubuntu:16.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "3.8"
-            base_image: "ubuntu:16.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "3.9"
-            base_image: "ubuntu:16.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "4.0"
-            base_image: "ubuntu:18.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "5.0"
-            base_image: "ubuntu:18.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "6.0"
-            base_image: "ubuntu:18.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
           - compiler_version: "7"
             base_image: "ubuntu:18.04"
             other_packages: "libc++-7-dev libc++abi-7-dev"
@@ -147,23 +115,28 @@ jobs:
 
           - compiler_version: "16"
             base_image: "ubuntu:24.04"
-            other_packages: "libc++-16-dev libc++abi-16-dev gcc-13-multilib g++-13-multilib"
+            other_packages: "libc++-16-dev libc++abi-16-dev"
+            x86_packages: "gcc-13-multilib g++-13-multilib"
 
           - compiler_version: "17"
             base_image: "ubuntu:24.04"
-            other_packages: "libc++-17-dev libc++abi-17-dev gcc-13-multilib g++-13-multilib"
+            other_packages: "libc++-17-dev libc++abi-17-dev"
+            x86_packages: "gcc-13-multilib g++-13-multilib"
 
           - compiler_version: "18"
             base_image: "ubuntu:24.04"
-            other_packages: "libc++-18-dev libc++abi-18-dev gcc-13-multilib g++-13-multilib"
+            other_packages: "libc++-18-dev libc++abi-18-dev"
+            x86_packages: "gcc-13-multilib g++-13-multilib"
 
           - compiler_version: "19"
             base_image: "ubuntu:25.04"
-            other_packages: "libc++-19-dev libc++abi-19-dev gcc-14-multilib g++-14-multilib"
+            other_packages: "libc++-19-dev libc++abi-19-dev"
+            x86_packages: "gcc-14-multilib g++-14-multilib"
 
           - compiler_version: "20"
             base_image: "ubuntu:25.04"
-            other_packages: "libc++-20-dev libc++abi-20-dev gcc-14-multilib g++-14-multilib"
+            other_packages: "libc++-20-dev libc++abi-20-dev"
+            x86_packages: "gcc-15-multilib g++-15-multilib"
 
     ################################
     #
@@ -174,7 +147,7 @@ jobs:
       - name: Setup target image name
         shell: bash
         run: |
-          echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/${{ matrix.config.base_image }}" >> $GITHUB_ENV
+          echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/clang:${{ matrix.config.compiler_version }}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -221,6 +194,7 @@ jobs:
             BASE_IMAGE=ghcr.io/dnkpp/${{ matrix.config.base_image }}
             COMPILER_VERSION=${{ matrix.config.compiler_version }}
             PACKAGE_LIST=${{matrix.config.other_packages}}
+            X86_PACKAGE_LIST=${{matrix.config.x86_packages}}
 
   ################################
   #
@@ -289,7 +263,7 @@ jobs:
       - name: Setup target image name
         shell: bash
         run: |
-          echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/${{ matrix.config.base_image }}" >> $GITHUB_ENV
+          echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/gcc:${{ matrix.config.compiler_version }}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v4

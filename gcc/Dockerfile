@@ -13,12 +13,18 @@ RUN apt-get update -y \
 ARG COMPILER_VERSION
 RUN apt-get install -y \
         gcc-${COMPILER_VERSION} \
-        g++-${COMPILER_VERSION} \
-        gcc-${COMPILER_VERSION}-multilib \
-        g++-${COMPILER_VERSION}-multilib \
-  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${COMPILER_VERSION} 10000 \
-                        --slave /usr/bin/g++ g++ /usr/bin/g++-${COMPILER_VERSION} \
-  && update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-${COMPILER_VERSION} 10000
+        g++-${COMPILER_VERSION}
+
+ARG TARGETPLATFORM
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+        apt-get install -y \
+            gcc-${COMPILER_VERSION}-multilib \
+            g++-${COMPILER_VERSION}-multilib; \
+    fi
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${COMPILER_VERSION} 10000 \
+                            --slave /usr/bin/g++ g++ /usr/bin/g++-${COMPILER_VERSION} \
+    && update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-${COMPILER_VERSION} 10000
 
 ARG PACKAGE_LIST
 RUN apt-get install -y ${PACKAGE_LIST} \
