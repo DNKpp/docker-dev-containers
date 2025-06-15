@@ -1,318 +1,338 @@
 name: Build and publish docker images
 
-env:
-  UBUNTU_16_04: "ubuntu:16.04@sha256:a3785f78ab8547ae2710c89e627783cfa7ee7824d3468cae6835c9f4eae23ff7"
-  UBUNTU_18_04: "ubuntu:18.04@sha256:dca176c9663a7ba4c1f0e710986f5a25e672842963d95b960191e2d9f7185ebe"
-  UBUNTU_20_04: "ubuntu:20.04@sha256:e5a6aeef391a8a9bdaee3de6b28f393837c479d8217324a2340b64e45a81e0ef"
-  UBUNTU_22_04: "ubuntu:22.04@sha256:3d1556a8a18cf5307b121e0a98e93f1ddf1f3f8e092f1fddfd941254785b95d7"
-  UBUNTU_24_04: "ubuntu:24.04@sha256:6e75a10070b0fcb0bead763c5118a369bc7cc30dfc1b0749c491bbb21f15c3c7"
-  UBUNTU_25_04: "ubuntu:25.04@sha256:79efa276fdefa2ee3911db29b0608f8c0561c347ec3f4d4139980d43b168d991"
 on:
   push:
 
+env:
+  PLATFORM_LIST: linux/amd64,linux/arm64
+
 jobs:
-    linux-base-images:
-        strategy:
-            fail-fast: false
-            matrix:
-                config:
-                    - {
-                        base_image: UBUNTU_16_04,
-                        tag: "ubuntu:16.04"
-                    }
-                    - {
-                        base_image: UBUNTU_18_04,
-                        tag: "ubuntu:18.04"
-                    }
-                    - {
-                        base_image: UBUNTU_20_04,
-                        tag: "ubuntu:20.04"
-                    }
-                    - {
-                        base_image: UBUNTU_22_04,
-                        tag: "ubuntu:22.04"
-                    }
-                    - {
-                        base_image: UBUNTU_24_04,
-                        tag: "ubuntu:24.04"
-                    }
-                    - {
-                        base_image: UBUNTU_25_04,
-                        tag: "ubuntu:25.04"
-                    }
-                    
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              
-            - name: Set up Docker Buildx
-              id: buildx
-              uses: docker/setup-buildx-action@v3
-                
-            - name: Login to GitHub Container Registry
-              uses: docker/login-action@v3
-              with:
-                registry: ghcr.io
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
-                    
-            - name: Build and push
-              uses: docker/build-push-action@v5
-              with:
-                context: .
-                file: ./base/Dockerfile
-                push: true
-                tags: ghcr.io/dnkpp/${{ matrix.config.tag }}
-                platforms: linux/amd64
-                build-args: |
-                        BASE_IMAGE=${{ env[format('{0}', matrix.config.base_image)] }}
+  base-images:
+    strategy:
+      fail-fast: false
+      matrix:
+        base_image: [
+          "ubuntu:16.04",
+          "ubuntu:18.04",
+          "ubuntu:20.04",
+          "ubuntu:22.04",
+          "ubuntu:24.04",
+          "ubuntu:25.04"
+        ]
 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup target image name
+        shell: bash
+        run: |
+          echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/${{ matrix.base_image }}" >> $GITHUB_ENV
 
-    clang-linux-images:
-        needs: linux-base-images
-        strategy:
-            fail-fast: false
-            matrix:
-                config:
-                    - {
-                        compiler_version: "3.5",
-                        base_image: "ubuntu:16.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "3.6",
-                        base_image: "ubuntu:16.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "3.7",
-                        base_image: "ubuntu:16.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "3.8",
-                        base_image: "ubuntu:16.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "3.9",
-                        base_image: "ubuntu:16.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "4.0",
-                        base_image: "ubuntu:18.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "5.0",
-                        base_image: "ubuntu:18.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "6.0",
-                        base_image: "ubuntu:18.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "7",
-                        base_image: "ubuntu:18.04",
-                        other_packages: "libc++-7-dev libc++abi-7-dev"
-                    }
-                    - {
-                        compiler_version: "8",
-                        base_image: "ubuntu:20.04",
-                        other_packages: "libc++-8-dev libc++abi-8-dev"
-                    }
-                    - {
-                        compiler_version: "9",
-                        base_image: "ubuntu:20.04",
-                        other_packages: "libc++-9-dev libc++abi-9-dev"
-                    }
-                    - {
-                        compiler_version: "10",
-                        base_image: "ubuntu:20.04",
-                        other_packages: "libc++-10-dev libc++abi-10-dev"
-                    }
-                    - {
-                        compiler_version: "11",
-                        base_image: "ubuntu:20.04",
-                        other_packages: "libc++-11-dev libc++abi-11-dev"
-                    }
-                    - {
-                        compiler_version: "12",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-12-dev libc++abi-12-dev"
-                    }
-                    - {
-                        compiler_version: "13",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-13-dev libc++abi-13-dev"
-                    }
-                    - {
-                        compiler_version: "14",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-14-dev libc++abi-14-dev"
-                    }
-                    - {
-                        compiler_version: "15",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-15-dev libc++abi-15-dev"
-                    }
-                    - {
-                        compiler_version: "16",
-                        base_image: "ubuntu:24.04",
-                        other_packages: "libc++-16-dev libc++abi-16-dev gcc-13-multilib g++-13-multilib"
-                    }
-                    - {
-                        compiler_version: "17",
-                        base_image: "ubuntu:24.04",
-                        other_packages: "libc++-17-dev libc++abi-17-dev gcc-13-multilib g++-13-multilib"
-                    }
-                    - {
-                        compiler_version: "18",
-                        base_image: "ubuntu:24.04",
-                        other_packages: "libc++-18-dev libc++abi-18-dev gcc-13-multilib g++-13-multilib"
-                    }
-                    - {
-                        compiler_version: "19",
-                        base_image: "ubuntu:25.04",
-                        other_packages: "libc++-19-dev libc++abi-19-dev gcc-14-multilib g++-14-multilib"
-                    }
-                    - {
-                        compiler_version: "20",
-                        base_image: "ubuntu:25.04",
-                        other_packages: "libc++-20-dev libc++abi-20-dev gcc-14-multilib g++-14-multilib"
-                    }
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ env.PLATFORM_LIST }}
 
-            - name: Set up Docker Buildx
-              id: buildx
-              uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: ${{ env.PLATFORM_LIST }}
 
-            - name: Login to GitHub Container Registry
-              uses: docker/login-action@v3
-              with:
-                registry: ghcr.io
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
-              
-            - name: Build and push
-              uses: docker/build-push-action@v5
-              with:
-                context: .
-                file: ./clang/Dockerfile
-                push: true
-                tags: ghcr.io/dnkpp/clang:${{ matrix.config.compiler_version }}
-                platforms: linux/amd64
-                build-args: |
-                    BASE_IMAGE=ghcr.io/dnkpp/${{ matrix.config.base_image }}
-                    COMPILER_VERSION=${{ matrix.config.compiler_version }}
-                    PACKAGE_LIST=${{matrix.config.other_packages}}
+      - name: Login to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract metadata
+        id: meta
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.TARGET_IMAGE_NAME }}
+          # OCI Image Spec:
+          # https://github.com/opencontainers/image-spec/blob/main/annotations.md
+          labels: |
+            maintainer=${{ github.actor }}
 
-    gcc-linux-images:
-        needs: linux-base-images
-        strategy:
-            fail-fast: false
-            matrix:
-                config:
-                    - {
-                        compiler_version: "4.8",
-                        base_image: "ubuntu:18.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "4.9",
-                        base_image: "ubuntu:16.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "5",
-                        base_image: "ubuntu:18.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "6",
-                        base_image: "ubuntu:18.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "7",
-                        base_image: "ubuntu:20.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "8",
-                        base_image: "ubuntu:20.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "9",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "10",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "11",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "12",
-                        base_image: "ubuntu:22.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "13",
-                        base_image: "ubuntu:24.04",
-                        other_packages: "libc++-18-dev libc++abi-18-dev"
-                    }
-                    - {
-                        compiler_version: "14",
-                        base_image: "ubuntu:24.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
-                    - {
-                        compiler_version: "15",
-                        base_image: "ubuntu:25.04",
-                        other_packages: "libc++-dev libc++abi-dev"
-                    }
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./base/Dockerfile
+          push: true
+          outputs: type=image,name=target
+          tags: ${{ env.TARGET_IMAGE_NAME }}
+          platforms: ${{ env.PLATFORM_LIST }}
+          build-args: |
+            BASE_IMAGE=${{ matrix.base_image }}
 
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  clang-images:
+    needs: base-images
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - compiler_version: "3.5"
+            base_image: "ubuntu:16.04"
+            other_packages: "libc++-dev libc++abi-dev"
 
-            - name: Set up Docker Buildx
-              id: buildx
-              uses: docker/setup-buildx-action@v3
+          - compiler_version: "3.6"
+            base_image: "ubuntu:16.04"
+            other_packages: "libc++-dev libc++abi-dev"
 
-            - name: Login to GitHub Container Registry
-              uses: docker/login-action@v3
-              with:
-                registry: ghcr.io
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
-              
-            - name: Build and push
-              uses: docker/build-push-action@v5
-              with:
-                context: .
-                file: ./gcc/Dockerfile
-                push: true
-                tags: ghcr.io/dnkpp/gcc:${{ matrix.config.compiler_version }}
-                platforms: linux/amd64
-                build-args: |
-                    BASE_IMAGE=ghcr.io/dnkpp/${{ matrix.config.base_image }}
-                    COMPILER_VERSION=${{ matrix.config.compiler_version }}
-                    PACKAGE_LIST=${{matrix.config.other_packages}}
+          - compiler_version: "3.7"
+            base_image: "ubuntu:16.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "3.8"
+            base_image: "ubuntu:16.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "3.9"
+            base_image: "ubuntu:16.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "4.0"
+            base_image: "ubuntu:18.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "5.0"
+            base_image: "ubuntu:18.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "6.0"
+            base_image: "ubuntu:18.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "7"
+            base_image: "ubuntu:18.04"
+            other_packages: "libc++-7-dev libc++abi-7-dev"
+
+          - compiler_version: "8"
+            base_image: "ubuntu:20.04"
+            other_packages: "libc++-8-dev libc++abi-8-dev"
+
+          - compiler_version: "9"
+            base_image: "ubuntu:20.04"
+            other_packages: "libc++-9-dev libc++abi-9-dev"
+
+          - compiler_version: "10"
+            base_image: "ubuntu:20.04"
+            other_packages: "libc++-10-dev libc++abi-10-dev"
+
+          - compiler_version: "11"
+            base_image: "ubuntu:20.04"
+            other_packages: "libc++-11-dev libc++abi-11-dev"
+
+          - compiler_version: "12"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-12-dev libc++abi-12-dev"
+
+          - compiler_version: "13"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-13-dev libc++abi-13-dev"
+
+          - compiler_version: "14"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-14-dev libc++abi-14-dev"
+
+          - compiler_version: "15"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-15-dev libc++abi-15-dev"
+
+          - compiler_version: "16"
+            base_image: "ubuntu:24.04"
+            other_packages: "libc++-16-dev libc++abi-16-dev gcc-13-multilib g++-13-multilib"
+
+          - compiler_version: "17"
+            base_image: "ubuntu:24.04"
+            other_packages: "libc++-17-dev libc++abi-17-dev gcc-13-multilib g++-13-multilib"
+
+          - compiler_version: "18"
+            base_image: "ubuntu:24.04"
+            other_packages: "libc++-18-dev libc++abi-18-dev gcc-13-multilib g++-13-multilib"
+
+          - compiler_version: "19"
+            base_image: "ubuntu:25.04"
+            other_packages: "libc++-19-dev libc++abi-19-dev gcc-14-multilib g++-14-multilib"
+
+          - compiler_version: "20"
+            base_image: "ubuntu:25.04"
+            other_packages: "libc++-20-dev libc++abi-20-dev gcc-14-multilib g++-14-multilib"
+
+    ################################
+    #
+    # clang
+    #
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup target image name
+        shell: bash
+        run: |
+          echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/${{ matrix.config.base_image }}" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ env.PLATFORM_LIST }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: ${{ env.PLATFORM_LIST }}
+
+      - name: Login to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.TARGET_IMAGE_NAME }}
+          # OCI Image Spec:
+          # https://github.com/opencontainers/image-spec/blob/main/annotations.md
+          labels: |
+            maintainer=${{ github.actor }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./clang/Dockerfile
+          push: true
+          outputs: type=image,name=target
+          tags: ${{ env.TARGET_IMAGE_NAME }}
+          platforms: ${{ env.PLATFORM_LIST }}
+          build-args: |
+            BASE_IMAGE=ghcr.io/dnkpp/${{ matrix.config.base_image }}
+            COMPILER_VERSION=${{ matrix.config.compiler_version }}
+            PACKAGE_LIST=${{matrix.config.other_packages}}
+
+  ################################
+  #
+  # GCC
+  #
+  gcc-images:
+    needs: base-images
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - compiler_version: "4.8"
+            base_image: "ubuntu:18.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "4.9"
+            base_image: "ubuntu:16.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "5"
+            base_image: "ubuntu:18.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "6"
+            base_image: "ubuntu:18.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "7"
+            base_image: "ubuntu:20.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "8"
+            base_image: "ubuntu:20.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "9"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "10"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "11"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "12"
+            base_image: "ubuntu:22.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "13"
+            base_image: "ubuntu:24.04"
+            other_packages: "libc++-18-dev libc++abi-18-dev"
+
+          - compiler_version: "14"
+            base_image: "ubuntu:24.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "15"
+            base_image: "ubuntu:25.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup target image name
+        shell: bash
+        run: |
+          echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/${{ matrix.config.base_image }}" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ env.PLATFORM_LIST }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: ${{ env.PLATFORM_LIST }}
+
+      - name: Login to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.TARGET_IMAGE_NAME }}
+          # OCI Image Spec:
+          # https://github.com/opencontainers/image-spec/blob/main/annotations.md
+          labels: |
+            maintainer=${{ github.actor }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./gcc/Dockerfile
+          push: true
+          outputs: type=image,name=target
+          tags: ${{ env.TARGET_IMAGE_NAME }}
+          platforms: ${{ env.PLATFORM_LIST }}
+          build-args: |
+            BASE_IMAGE=ghcr.io/dnkpp/${{ matrix.config.base_image }}
+            COMPILER_VERSION=${{ matrix.config.compiler_version }}
+            PACKAGE_LIST=${{matrix.config.other_packages}}
