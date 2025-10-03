@@ -2,6 +2,7 @@ name: Build and publish docker images
 
 on:
   push:
+  workflow_dispatch:
 
 env:
   PLATFORM_LIST: linux/amd64,linux/arm64
