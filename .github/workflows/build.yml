@@ -19,6 +19,7 @@ jobs:
           "ubuntu:22.04",
           "ubuntu:24.04",
           "ubuntu:25.04",
+          "ubuntu:25.10",
           "debian:bullseye-slim",
           "debian:bookworm-slim",
         ]
@@ -139,6 +140,11 @@ jobs:
           - compiler_version: "20"
             base_image: "ubuntu:25.04"
             other_packages: "libc++-20-dev libc++abi-20-dev"
+            x86_packages: "gcc-15-multilib g++-15-multilib"
+
+          - compiler_version: "21"
+            base_image: "ubuntu:25.10"
+            other_packages: "libc++-21-dev libc++abi-21-dev"
             x86_packages: "gcc-15-multilib g++-15-multilib"
 
     ################################
