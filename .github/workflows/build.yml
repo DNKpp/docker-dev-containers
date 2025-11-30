@@ -120,7 +120,7 @@ jobs:
           - compiler_version: "16"
             base_image: "ubuntu:24.04"
             other_packages: "libc++-16-dev libc++abi-16-dev"
-            x86_packages: "gcc-13-multilib g++-13-multilib"
+            x86_packages: "gcc-12-multilib g++-12-multilib"
 
           - compiler_version: "17"
             base_image: "ubuntu:24.04"
