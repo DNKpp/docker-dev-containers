@@ -83,69 +83,54 @@ jobs:
         config:
           - compiler_version: "7"
             base_image: "ubuntu:18.04"
-            other_packages: "libc++-7-dev libc++abi-7-dev"
 
           - compiler_version: "8"
             base_image: "ubuntu:20.04"
-            other_packages: "libc++-8-dev libc++abi-8-dev"
 
           - compiler_version: "9"
             base_image: "ubuntu:20.04"
-            other_packages: "libc++-9-dev libc++abi-9-dev"
 
           - compiler_version: "10"
             base_image: "ubuntu:20.04"
-            other_packages: "libc++-10-dev libc++abi-10-dev"
 
           - compiler_version: "11"
             base_image: "ubuntu:20.04"
-            other_packages: "libc++-11-dev libc++abi-11-dev"
 
           - compiler_version: "12"
             base_image: "ubuntu:22.04"
-            other_packages: "libc++-12-dev libc++abi-12-dev"
 
           - compiler_version: "13"
             base_image: "ubuntu:22.04"
-            other_packages: "libc++-13-dev libc++abi-13-dev"
 
           - compiler_version: "14"
             base_image: "ubuntu:22.04"
-            other_packages: "libc++-14-dev libc++abi-14-dev"
 
           - compiler_version: "15"
             base_image: "ubuntu:22.04"
-            other_packages: "libc++-15-dev libc++abi-15-dev"
 
           - compiler_version: "16"
             base_image: "ubuntu:24.04"
-            other_packages: "libc++-16-dev libc++abi-16-dev"
-            x86_packages: "gcc-12-multilib g++-12-multilib"
+            gcc_toolchain_version: "12"
 
           - compiler_version: "17"
             base_image: "ubuntu:24.04"
-            other_packages: "libc++-17-dev libc++abi-17-dev"
-            x86_packages: "gcc-13-multilib g++-13-multilib"
+            gcc_toolchain_version: "13"
 
           - compiler_version: "18"
             base_image: "ubuntu:24.04"
-            other_packages: "libc++-18-dev libc++abi-18-dev"
-            x86_packages: "gcc-13-multilib g++-13-multilib"
+            gcc_toolchain_version: "13"
 
           - compiler_version: "19"
             base_image: "ubuntu:25.04"
-            other_packages: "libc++-19-dev libc++abi-19-dev"
-            x86_packages: "gcc-14-multilib g++-14-multilib"
+            gcc_toolchain_version: "14"
 
           - compiler_version: "20"
             base_image: "ubuntu:25.04"
-            other_packages: "libc++-20-dev libc++abi-20-dev"
-            x86_packages: "gcc-15-multilib g++-15-multilib"
+            gcc_toolchain_version: "15"
 
           - compiler_version: "21"
             base_image: "ubuntu:25.10"
-            other_packages: "libc++-21-dev libc++abi-21-dev"
-            x86_packages: "gcc-15-multilib g++-15-multilib"
+            gcc_toolchain_version: "15"
 
     ################################
     #
@@ -202,8 +187,7 @@ jobs:
           build-args: |
             BASE_IMAGE=ghcr.io/dnkpp/${{ matrix.config.base_image }}
             COMPILER_VERSION=${{ matrix.config.compiler_version }}
-            PACKAGE_LIST=${{matrix.config.other_packages}}
-            X86_PACKAGE_LIST=${{matrix.config.x86_packages}}
+            GCC_TOOLCHAIN_VERSION=${{matrix.config.gcc_toolchain_version}}
 
   ################################
   #

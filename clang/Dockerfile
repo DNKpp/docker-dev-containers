@@ -14,19 +14,30 @@ ARG COMPILER_VERSION
 RUN apt-get install -y \
       clang-${COMPILER_VERSION} \
       clang-tools-${COMPILER_VERSION} \
-  && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-${COMPILER_VERSION} 10000 \
-                        --slave /usr/bin/clang++ clang++ /usr/bin/clang++-${COMPILER_VERSION}
+      libc++-${COMPILER_VERSION}-dev \
+      libc++abi-${COMPILER_VERSION}-dev
 
-ARG X86_PACKAGE_LIST
+ARG GCC_TOOLCHAIN_VERSION
 ARG TARGETPLATFORM
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
-        apt-get install -y ${X86_PACKAGE_LIST}; \
-    fi
+RUN TOOLCHAIN_FLAG=""; \
+    if [ -n "$GCC_TOOLCHAIN_VERSION" ]; then \
+        apt-get install -y \
+                gcc-${GCC_TOOLCHAIN_VERSION} \
+                g++-${GCC_TOOLCHAIN_VERSION}; \
+        TOOLCHAIN_FLAG="--gcc-install-dir=/usr/lib/gcc/x86_64-linux-gnu/${GCC_TOOLCHAIN_VERSION}"; \
+        if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+            apt-get install -y \
+                    gcc-${GCC_TOOLCHAIN_VERSION}-multilib \
+                    g++-${GCC_TOOLCHAIN_VERSION}-multilib; \
+        fi; \
+    fi; \
+    printf '#!/bin/sh\nexec /usr/bin/clang-%s %s "$@"\n' "${COMPILER_VERSION}" "${TOOLCHAIN_FLAG}" > /usr/local/bin/clang && \
+    chmod +x /usr/local/bin/clang && \
+    printf '#!/bin/sh\nexec /usr/bin/clang++-%s %s "$@"\n' "${COMPILER_VERSION}" "${TOOLCHAIN_FLAG}" > /usr/local/bin/clang++ && \
+    chmod +x /usr/local/bin/clang++
 
-ARG PACKAGE_LIST
-RUN apt-get install -y ${PACKAGE_LIST} \
-    && apt-get clean -y
+RUN apt-get clean -y
 
-ENV CC=/usr/bin/clang \
-    CXX=/usr/bin/clang++ \
+ENV CC=/usr/local/bin/clang \
+    CXX=/usr/local/bin/clang++ \
     CMAKE_GENERATOR=Ninja
