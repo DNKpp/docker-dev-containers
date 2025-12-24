@@ -248,7 +248,7 @@ jobs:
             other_packages: "libc++-dev libc++abi-dev"
 
           - compiler_version: "15"
-            base_image: "ubuntu:25.04"
+            base_image: "ubuntu:25.10"
             other_packages: "libc++-dev libc++abi-dev"
 
     runs-on: ubuntu-latest
