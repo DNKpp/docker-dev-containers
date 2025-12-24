@@ -13,8 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         base_image: [
-          "ubuntu:16.04",
-          "ubuntu:18.04",
           "ubuntu:20.04",
           "ubuntu:22.04",
           "ubuntu:24.04",
@@ -81,9 +79,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - compiler_version: "7"
-            base_image: "ubuntu:18.04"
-
           - compiler_version: "8"
             base_image: "ubuntu:20.04"
 
@@ -199,22 +194,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - compiler_version: "4.8"
-            base_image: "ubuntu:18.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "4.9"
-            base_image: "ubuntu:16.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "5"
-            base_image: "ubuntu:18.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
-          - compiler_version: "6"
-            base_image: "ubuntu:18.04"
-            other_packages: "libc++-dev libc++abi-dev"
-
           - compiler_version: "7"
             base_image: "ubuntu:20.04"
             other_packages: "libc++-dev libc++abi-dev"
