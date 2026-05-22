@@ -18,6 +18,7 @@ jobs:
           "ubuntu:24.04",
           "ubuntu:25.04",
           "ubuntu:25.10",
+          "ubuntu:26.04",
           "debian:bullseye-slim",
           "debian:bookworm-slim",
         ]
@@ -124,8 +125,12 @@ jobs:
             gcc_toolchain_version: "15"
 
           - compiler_version: "21"
-            base_image: "ubuntu:25.10"
+            base_image: "ubuntu:26.04"
             gcc_toolchain_version: "15"
+
+          - compiler_version: "22"
+            base_image: "ubuntu:26.04"
+            gcc_toolchain_version: "16"
 
     ################################
     #
@@ -227,7 +232,11 @@ jobs:
             other_packages: "libc++-dev libc++abi-dev"
 
           - compiler_version: "15"
-            base_image: "ubuntu:25.10"
+            base_image: "ubuntu:26.04"
+            other_packages: "libc++-dev libc++abi-dev"
+
+          - compiler_version: "16"
+            base_image: "ubuntu:26.04"
             other_packages: "libc++-dev libc++abi-dev"
 
     runs-on: ubuntu-latest
