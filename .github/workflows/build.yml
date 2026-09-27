@@ -31,7 +31,7 @@ jobs:
           echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/${{ matrix.base_image }}" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -144,7 +144,7 @@ jobs:
           echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/clang:${{ matrix.config.compiler_version }}" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -247,7 +247,7 @@ jobs:
           echo "TARGET_IMAGE_NAME=ghcr.io/dnkpp/gcc:${{ matrix.config.compiler_version }}" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
